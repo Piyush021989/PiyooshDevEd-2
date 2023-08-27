@@ -1,7 +1,6 @@
 import { LightningElement } from 'lwc';
 import LightningPrompt from 'lightning/prompt';
 
-
 export default class LightningPromptExample extends LightningElement {
     handlePromptClick() {
         LightningPrompt.open({
