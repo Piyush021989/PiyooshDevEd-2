@@ -1,0 +1,38 @@
+.text-align .slds-form-element__help {
+    text-align: left;
+}
+
+.slds-form-element__control {
+    clear: left;
+    position: relative;
+    border: 1px solid gray;
+    border-radius: var(--sds-c-input-radius-border, var(--lwc-borderRadiusMedium, 0.25rem));
+}
+
+.sidebarHeader[embeddedService-chatHeader_chatHeader] {
+    color: white;
+    background-color: #2b2e31;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    position: relative;
+    padding: 0 14px;
+    height: 100%;
+}
+
+.embeddedServiceSidebarButton[c-preChatLWC_preChatLWC] {
+    position: relative;
+    border: none;
+    background: var(--lwc-colorBrand, #0a0a0a);
+    text-shadow: none;
+    box-shadow: none;
+    border-radius: 4px;
+    transition: background .4s ease;
+    color: var(--lwc-colorTextInverse, #FFFFFF);
+    font-size: var(--lwc-esFontSizeMedium, 1em);
+    font-weight: var(--lwc-fontWeightRegular, 400);
+    font-family: var(--lwc-fontFamily, Lato), sans-serif;
+    width: 100%;
+    margin: 0;
+    height: 44px;
+}

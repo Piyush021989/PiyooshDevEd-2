@@ -1,0 +1,35 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+                access="global" 
+                controller="Health_PhysicianPatientController">
+    
+    <aura:attribute name="row" 					type="Object" />
+    <aura:attribute name="IsSpinner"            type="Boolean" default="false"/>
+    
+    <aura:registerEvent name="patientFileItemActionEvent" type="c:Health_PatientAttachmentEvent"/>
+  <!--  <aura:handler name="patientFileItemActionEvent" event="c:Health_PatientAttachmentEvent" action="{!c.handleFileItemAction}"/> -->
+
+    
+    <div class="slds-col slds-size_4-of-12 slds-p-bottom_x-small">
+        <div class="fileName-container slds-align_absolute-center">
+            <ui:outputText value="{!v.row.title}"/>
+        </div>
+        
+        <div class="fileIcon-container slds-align_absolute-center slds-p-around_xx-small">
+            <lightning:fileCard fileId="{!v.row.fileId}" description="{!v.row.title}"/>
+        </div>
+        
+        <div class="fileDetails-container slds-align_absolute-center">
+            <ui:outputText value="{!v.row.contentsize}"/>
+            <span class="slds-p-horizontal_xx-small"><b> | </b></span>
+            <ui:outputText value="{!v.row.fileExtension}"/>
+        </div>
+    </div>
+    
+    <div class="slds-col slds-size_8-of-12 slds-align-middle">
+        <div class="slds-col slds-size_2-of-12">
+            <lightning:icon iconName="utility:download" alternativeText="Download" title="Download" size="x-small" onclick="{!c.handleRowAction}"/>
+            <span class="slds-p-horizontal_x-small"><b> | </b></span>
+            <lightning:icon iconName="utility:delete" alternativeText="Delete" title="Delete" size="x-small" onclick="{!c.handleRowAction}"/>
+        </div>
+    </div>
+</aura:component>

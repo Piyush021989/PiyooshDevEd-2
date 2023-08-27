@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Event template">
+    <aura:attribute name="action" type="String" />
+    <aura:attribute name="fileId" type="String" />
+</aura:event>

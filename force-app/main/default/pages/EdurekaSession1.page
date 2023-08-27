@@ -1,0 +1,9 @@
+<apex:page >
+
+<h1> Welcome to Vihang Valley Phase 2 </h1>
+<br/>
+My Name is : <u> {!$User.FirstName} </u>
+<br/> <br/>
+
+<apex:image url="" />
+</apex:page>

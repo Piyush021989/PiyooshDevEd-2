@@ -1,0 +1,7 @@
+<aura:component >
+    <aura:registerEvent name="cmpEvent" type="c:ComponentEventExample"/>
+	<lightning:card  title="Child Component">
+        I am in Child Component
+        <lightning:button name="fireEvent" label="Fire Event" variant="Brand" onclick="{!c.passValueToParentComponent}"/>
+    </lightning:card>
+</aura:component>

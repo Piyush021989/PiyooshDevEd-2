@@ -1,0 +1,9 @@
+<aura:component >
+    <aura:attribute name="messageFromEvent" type="String"/>
+    <aura:handler name="cmpEvent" event="c:ComponentEventExample" action="{!c.getValuesFromChild}"/>
+    <lightning:card title="Parent Component">
+        Message from the Child Component --- {!v.messageFromEvent}<br/>
+        I am in Parent Component
+        <c:ChilComponent/>
+    </lightning:card>
+</aura:component>

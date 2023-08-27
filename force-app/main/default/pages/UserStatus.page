@@ -1,0 +1,16 @@
+<apex:page >
+       <apex:pageBlock title="User Status">
+            <apex:pageBlockSection columns="1">
+             {! $User.FirstName  & ' ' & $User.LastName}
+             ({! $User.UserName})
+             <p> Today's Date is {!TODAY()} </p>
+             <p> Next Week It will be {! TODAY() +7} </p>
+             <p> Today year is {! YEAR(TODAY())} </p>
+             <P> Tomorrow will be Day Number {! DAY(TODAY() +1)} </P>  
+             <P> Let's find the Maximun: {! MAX(1,2,3,4,5,6,7,8,9)} </P>
+             <P> Is it True ? {! CONTAINS('Salesforce.com','force.com')} </P>
+             <p> {! If (CONTAINS('Salesforce.com','force.com'),'Yes','Nope') } </p>
+             <p> {! If (Day(Today()) < 15,'Before 15th of Month','After 15th of Month') } </p>
+            </apex:pageBlockSection>
+         </apex:pageBlock>
+</apex:page>

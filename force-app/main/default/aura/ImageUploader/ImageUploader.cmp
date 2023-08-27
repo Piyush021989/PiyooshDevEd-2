@@ -1,0 +1,22 @@
+<aura:component controller="AttachmentController" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    
+ <!--   <aura:attribute name="accept" type="List" default="[.pdf, .png, .jpg]"/>
+    <aura:attribute name="multiple" type="Boolean" default="true"/>
+    <aura:attribute name="disabled" type="Boolean" default="false"/>
+    <aura:attribute name="recordId" type="string" />
+
+    <lightning:fileUpload  name="fileUploader"
+                           label= "Attach Profile Picture"
+                           multiple="{!v.multiple}"
+                           accept="{!v.accept}"
+                           disabled="{!v.disabled}"
+                           recordId="{!v.recordId}" 
+                           onuploadfinished="{!c.handleUploadFinished}"/> -->
+
+	<aura:attribute name="recordId" type="String" />
+    <lightning:fileUpload label="Attach Picture"
+                name="fileUploader"
+                multiple="true"
+                accept=".pdf, .png, .jpg"
+                recordId="{!v.recordId}" />
+</aura:component>

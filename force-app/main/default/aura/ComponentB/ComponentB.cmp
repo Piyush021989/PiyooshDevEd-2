@@ -1,0 +1,8 @@
+<aura:component >
+    <aura:handler   event="c.AppEventExample" action="{!c.getEventMessageFromAppEvent}"/>
+    <aura:attribute name="messageFromEvent" type="String"/>
+    <lightning:card title="Component B">
+        I am in Component B <br/>
+        Message from the component A --  {!v.messageFromEvent}
+    </lightning:card>
+</aura:component>

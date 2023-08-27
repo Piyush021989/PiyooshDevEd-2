@@ -1,0 +1,5 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <lightning:input aura:id="field" label="First NameOBSGYN" name="firstname" placeholder="First name" required="true" />
+    <lightning:input aura:id="field" label="Last NameOBSGYN" name="lastname" placeholder="Last name" required="true" />
+    <lightning:button aura:id="submit" type="submit" label="Submit" onclick="{! c.onClick }" />
+</aura:component>

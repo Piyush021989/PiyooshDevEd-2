@@ -1,0 +1,10 @@
+<aura:component >
+    <lightning:layout>
+        <lightning:layoutitem size="6" padding="around-small">
+            <c:ComponentA/>
+        </lightning:layoutitem>
+        <lightning:layoutitem size="6" padding="around-small">
+            <c:ComponentB/>
+        </lightning:layoutitem>
+    </lightning:layout>
+</aura:component>

@@ -1,0 +1,91 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+                access="global"
+                controller="Health_PhysicianPatientController">
+    
+    <!--Handler-->
+    <aura:handler name="init" value="{!this}" action="{!c.inithelper}"/>
+    <aura:handler event="c:PatientEvent" action="{!c.handleApplicationEvent}"/>
+    
+    <!--Attribute-->  
+    <aura:attribute name="patRecId"                      type="string" default=""/>
+    <aura:attribute name="selEndo"                       type="boolean" default="false"/>
+    <aura:attribute name="proOther"                      type="boolean" default="false"/>
+    <aura:attribute name="selInsu"                       type="boolean" default="false"/>
+    <aura:attribute name="selHbA1C"                      type="boolean" default="false"/>
+    <aura:attribute name="showOMW"                       type="boolean" default="false"/>
+    <aura:attribute name="deselSubmit"                   type="boolean" default="false"/>
+    <aura:attribute name="valHbA1C"                      type="boolean" default="false"/> 
+    <aura:attribute name="saveDisabled"                  type="boolean" default="false"/>
+    <aura:attribute name="comingFromVIEW"                type="boolean" default="true"/>
+    
+    <lightning:card> 
+        <lightning:layout>
+            <lightning:layoutItem padding="around-medium" size="12">
+                <lightning:recordEditForm  objectApiName="Health_Patient__c"
+                                          onsubmit="{!c.handleOnSubmit}"
+                                          onsuccess="{!c.handleSuccess}"
+                                          aura:id="patientRecord"
+                                          recordId="{!v.patRecId}">
+                    <!--For the Lightning Message -->
+                    <lightning:messages/>
+                    <div class = "slds-box">
+                        <div class="slds-grid">
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class ="slds-top-space">
+                                    <lightning:inputField  fieldName="Managed_by_Endocrinologist__c"   aura:id="Endocrinologist" onchange="{!c.manageEndo}" />
+                                </div>
+                                <aura:if isTrue="{!v.selEndo}">
+                                    <div class ="slds-top-space">
+                                        <lightning:inputField  fieldName="Provider_Name__c" aura:id ="providerName" onchange="{!c.selectProvider}"/>
+                                    </div>
+                                    <aura:if isTrue="{!v.proOther}">
+                                        <div class ="slds-top-space">
+                                            <lightning:inputField  fieldName="Other_Provider_Name__c" aura:id ="othproviName"/>
+                                        </div>
+                                    </aura:if>
+                                </aura:if>
+                                <div class ="slds-top-space">
+                                    <lightning:inputField  fieldName="HbA1C_8__c" aura:id ="HbA1C8" onchange="{!c.ShowHbA1C}"/>
+                                </div>
+                                <aura:if isTrue="{!v.selHbA1C}">
+                                    <div class ="slds-top-space">
+                                        <lightning:inputField  fieldName="HbA1C__c" aura:id ="HbA1C"/>
+                                    </div>
+                                </aura:if>
+                                <div class ="slds-top-space">
+                                    <lightning:inputField fieldName="UACR_Ratio__c" aura:id ="UACR"/>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class ="slds-top-space">
+                                    <lightning:inputField  aura:id="ptInsulin" fieldName="Pt_on_Insulin__c" onchange="{!c.ShowSpecifyInsu}"/>
+                                </div>
+                                <aura:if isTrue="{!v.selInsu}">  
+                                    <div class ="slds-top-space">
+                                        <lightning:inputField  fieldName="Specify_Insulin__c" aura:id ="specifyInsu"/>
+                                    </div>
+                                </aura:if>
+                                <div class ="slds-top-space">
+                                    <lightning:inputField fieldName="Retinol_Exam__c" aura:id ="retinolExam"/>
+                                </div>
+                                <aura:if isTrue="{!v.showOMW}">
+                                    <div class ="slds-top-space">
+                                        <lightning:inputField  fieldName="OMW__c" aura:id ="OMW"/>
+                                    </div>
+                                </aura:if>
+                                <div class = "slds-hide">
+                                    <lightning:inputField fieldName="id" aura:id ="id"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <aura:if isTrue="{!v.comingFromVIEW}">
+                        <div class="slds-box_bare slds-box_x-small slds-text-align_center slds-m-around_x-small">
+                            <lightning:button type="submit" label="Save" variant="brand" disabled="{!v.saveDisabled}"/>               
+                        </div>
+                    </aura:if>
+                </lightning:recordEditForm>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </lightning:card>
+</aura:component>

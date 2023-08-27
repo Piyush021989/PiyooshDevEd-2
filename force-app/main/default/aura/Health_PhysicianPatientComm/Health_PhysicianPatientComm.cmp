@@ -1,0 +1,189 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+                access="global"
+                controller="Health_PhysicianPatientController"
+                extensible="true">
+    
+    <!--Handler-->
+    <aura:handler name="init" value="{!this}" action="{!c.loadRecorddata}"/>
+    <aura:registerEvent name="appPatEvent" type="c:PatientEvent"/>
+    <aura:handler name="patientFileItemActionEvent" event="c:Health_PatientAttachmentEvent" action="{!c.handleFileItemAction}"/>
+    
+    <!--Attribute-->
+    <aura:attribute  name="IsSpinner"                    type="boolean" default="false"/> 
+    <aura:attribute  name="existPatient"                 type="boolean" default="false"/> 
+    <aura:attribute  name="displayNoResultFound"         type="string" default=""/> 
+    <aura:attribute  name="errorMsgIfPatientExist"       type="string" default=""/> 
+    <aura:attribute  name="patId"                        type="string" default=""/> 
+    <aura:attribute  name="patientRecord"                type="string" default=""/>
+    <aura:attribute  name="saved" 				         type="Boolean" default="true" />
+    <aura:attribute  name="searchRes" 				     type="Boolean" default="false" />
+    <aura:attribute  name="measuresSect" 				 type="Boolean" default="false" />
+    <aura:attribute  name="attachmentSec" 				 type="Boolean" default="false" />
+    <aura:attribute  name="showButtonActions" 		     type="Boolean" default="false" />
+    <aura:attribute  name="isPractioner" 	   	         type="Boolean" default="false" />
+    <aura:attribute  name="DOB"                          type="Date"/>
+    <aura:attribute  name="firstName"                    type="string"/>
+    <aura:attribute  name="lastName"                     type="string"/>
+    <aura:attribute  name="patientIdVal"                 type="string"/>
+    <aura:attribute  name="phoneNumber"                  type="string"/>
+    <aura:attribute  name="diaTab"                       type="Boolean" default="false" />
+    <aura:attribute  name="ccTab"                        type="Boolean" default="false" />
+    <aura:attribute  name="obsgynTab"                    type="Boolean" default="false" />
+    <aura:attribute  name="disableNewCreate"             type="Boolean" default="false" />
+    <aura:attribute  name="selectedMeasures"             type="List" default="[]" />
+    <aura:attribute  name="selTabId"                     type="String"/>
+    <aura:attribute  name="patRecId"                     type="String"/>
+    <aura:attribute  name="getPatRec"                    type="Boolean" default="false" />
+    <aura:attribute  name="filesCount" 			         type="Integer"/> 
+    <aura:attribute  name="rows" 				         type="List"/>
+    <aura:attribute  name="communityUrlPrefix" 	         type="String" default=""/>
+    
+    <aura:if isTrue="{!v.IsSpinner}">
+        <div class="slds-spinner_container">
+            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                <span class="slds-assistive-text">Loading</span>
+                <div  class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if> 
+    
+    <lightning:card title="Patient Details" iconName="standard:procedure_detail">
+        <lightning:layout>
+            <lightning:layoutItem padding="around-medium" size="12">
+                <aura:if isTrue="{!v.saved}">
+                    <lightning:recordEditForm  objectApiName="Health_Patient__c"
+                                               onsuccess="{!c.handleOnSuccess}"
+                                               onsubmit="{!c.handleSubmit}"
+                                               onerror="{!c.handleError}"
+                                               aura:id="patientRecord"
+                                               recordId="{!v.patRecId}">
+                        <lightning:messages aura:id="errMessage" />
+                        <div class = "slds-box">
+                            <div class="slds-grid">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class ="slds-top-space">
+                                        <lightning:inputField  fieldName="FirstName__c" aura:id ="patIdField"  value="{!v.firstName}"  required="true"/>
+                                    </div>
+                                    <div class ="slds-top-space">
+                                        <lightning:inputField  fieldName="DOB__c" aura:id ="patIdField" value="{!v.DOB}" required="true"/>
+                                    </div>
+                                    <div class ="slds-top-space">
+                                        <lightning:inputField  fieldName="Measures__c" aura:id ="patIdField"/>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class ="slds-top-space">
+                                        <lightning:inputField  fieldName="LastName__c"  aura:id ="patIdField" required="true" value="{!v.lastName}" />
+                                    </div>
+                                    <div class ="slds-top-space">
+                                        <lightning:inputField  fieldName="PhoneNumber__c" aura:id ="patIdField" value="{!v.phoneNumber}" />
+                                    </div>
+                                    <div class ="slds-top-space">
+                                        <lightning:inputField fieldName="Gender__c" aura:id ="patIdField"  required="true"/>
+                                    </div>
+                                    <aura:if isTrue="{!v.isPractioner}">
+                                        <div class ="slds-top-space">
+                                            <lightning:inputField fieldName="Account__c" aura:id ="patIdField"/>
+                                        </div>
+                                    </aura:if>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-box_bare slds-box_x-small slds-text-align_center slds-m-around_x-small">
+                            <lightning:button variant="neutral" iconName="utility:search" class="slds-button .slds-size_3-of-3"  aura:id="search"   label="Search" onclick="{!c.searchClick}" />
+                            <lightning:button variant="neutral" iconName="utility:clear"  class="slds-button .slds-size_3-of-3"  aura:id="clear"    label="Clear"  onclick="{!c.clearDetails}" />
+                            <lightning:button variant="brand"   iconName="utility:new"    class="slds-button .slds-size_3-of-3"  aura:id="submit"   type="submit" label="Create New"  onclick="{!c.handleSubmit}" disabled="{!v.disableNewCreate}" />
+                        </div>
+                    </lightning:recordEditForm>
+                    <aura:set attribute="else">
+                        <div class="slds-m-top_medium">
+                            <div class="slds-clearfix">
+                                <div class="slds-box_bare slds-box_x-small slds-text-align_center slds-m-around_x-small">
+                                    <lightning:button variant="brand" name="new" label="Back To Home" onclick="{!c.handleBackToHome}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <aura:if isTrue="{!v.getPatRec}">
+                            <c:Health_PhysicianPatientCommEDIT  patientRecord="{!v.patientRecord}"/>
+                            <aura:set attribute="else">
+                                
+                                <lightning:recordViewForm recordId= "{!v.patientRecord}" objectApiName="Health_Patient__c">
+                                    <div class = "slds-box">
+                                        <div class ="slds-top-space">
+                                            <lightning:outputField fieldName="Name" />
+                                        </div>
+                                        <div class="slds-grid">
+                                            <div class="slds-col slds-size_1-of-2">
+                                                <div class ="slds-top-space">
+                                                    <lightning:outputField  fieldName="FirstName__c" />
+                                                </div>
+                                                <div class ="slds-top-space">
+                                                    <lightning:outputField  fieldName="DOB__c" />
+                                                </div>
+                                                <div class ="slds-top-space">
+                                                    <lightning:outputField  fieldName="Measures__c" />
+                                                </div>
+                                                <div class ="slds-top-space">
+                                                    <lightning:outputField fieldName="Account__c"/>
+                                                </div>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-2">
+                                                <div class ="slds-top-space">
+                                                    <div class ="slds-top-space">
+                                                        <lightning:outputField  fieldName="LastName__c" />
+                                                    </div>
+                                                    <div class ="slds-top-space">
+                                                        <lightning:outputField  fieldName="PhoneNumber__c" />
+                                                    </div>
+                                                    <div class ="slds-top-space">
+                                                        <lightning:outputField  fieldName="Gender__c" />
+                                                    </div>
+                                                    <div class ="slds-top-space">
+                                                        <lightning:outputField  fieldName="Age__c" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </lightning:recordViewForm> 
+                                <aura:if isTrue="{!v.measuresSect}">
+                                    <lightning:tabset variant="scoped" selectedTabId="{!v.selTabId}">
+                                        <aura:if isTrue="{!v.diaTab}">
+                                            <lightning:tab onactive="{!c.handleActive}" label="Diabetes" id="diabetes" />
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.ccTab}">
+                                            <lightning:tab onactive="{!c.handleActive}" label="Cervical Cancer" id="cerc" />
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.obsgynTab}">
+                                            <lightning:tab onactive="{!c.handleActive}" label="OBS GYN" id="obsgyn" />
+                                        </aura:if>
+                                    </lightning:tabset>
+                                </aura:if>
+                                <aura:if isTrue="{!v.attachmentSec}">
+                                    <lightning:card title="Attachment" iconName="standard:file">
+                                        <aura:set attribute="actions">
+                                            <lightning:fileUpload class="attachment-upload" 
+                                                                  name="fileUploader"
+                                                                  label=""
+                                                                  multiple="true"
+                                                                  recordId="{!v.patientRecord}"
+                                                                  onuploadfinished="{!c.handleUploadFinished}"/>
+                                        </aura:set>
+                                        <div class="slds-var-p-around_xx-small">
+                                            <div class="slds-grid slds-wrap slds-border_bottom slds-p-vertical_xx-small">
+                                                <aura:iteration items="{!v.rows}" var="item">
+                                                    <c:Health_PatientAttachment row="{!item}" IsSpinner="{!v.IsSpinner}"/>
+                                                </aura:iteration>
+                                            </div>
+                                        </div>
+                                    </lightning:card>
+                                </aura:if>
+                            </aura:set>
+                        </aura:if>
+                    </aura:set>
+                </aura:if>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </lightning:card>
+</aura:component>

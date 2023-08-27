@@ -1,0 +1,7 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <lightning:tabset variant="vertical">
+        <lightning:tab onactive="{! c.handleActive }" label="Diabetes" id="diabetes" />
+        <lightning:tab onactive="{! c.handleActive }" label="Cervical Cancer" id="cerc" />
+        <lightning:tab onactive="{! c.handleActive }" label="OBS GYN" id="obsgyn" />
+    </lightning:tabset>
+</aura:component>

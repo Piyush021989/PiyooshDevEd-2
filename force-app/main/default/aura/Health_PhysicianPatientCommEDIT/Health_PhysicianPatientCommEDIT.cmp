@@ -1,0 +1,114 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+                access="global" 
+                controller="Health_PhysicianPatientController">
+    
+    <!--Handler-->
+    <aura:handler name="init" value="{!this}" action="{!c.loadInitdata}"/>
+    <aura:handler name="patientFileItemActionEvent" event="c:Health_PatientAttachmentEvent" action="{!c.handleFileItemAction}"/>
+
+    <!--Attribute-->
+    <aura:attribute name="IsSpinner"                     type="boolean" default="false"/> 
+    <aura:attribute name="patientRecord"                 type="string" default=""/>
+    <aura:attribute name="selEndo"                       type="boolean" default="false"/>
+    <aura:attribute name="proOther"                      type="boolean" default="false"/>
+    <aura:attribute name="selInsu"                       type="boolean" default="false"/>
+    <aura:attribute name="selHbA1C"                      type="boolean" default="false"/>
+    <aura:attribute name="valHbA1C"                      type="boolean" default="false"/>
+    <aura:attribute name="updateDisabled"                type="boolean" default="false"/>
+    <aura:attribute name="hideSAVEButton"                type="boolean" default="false"/>
+    <aura:attribute name="deselSubmit"                   type="boolean" default="false"/>
+    <aura:attribute name="filesCount" 			         type="Integer"/> 
+    <aura:attribute name="rows" 				         type="List"/>
+    
+    <aura:if isTrue="{!v.IsSpinner}">
+        <div class="slds-spinner_container">
+            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                <span class="slds-assistive-text">Loading</span>
+                <div  class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if> 
+    <!-- <lightning:card title="Patient Detail Records" iconName="standard:procedure_detail">  -->
+    <lightning:card>
+        <lightning:layout>
+            <lightning:layoutItem padding="around-medium" size="12">
+                <lightning:recordEditForm recordId= "{!v.patientRecord}" 
+                                          objectApiName="Health_Patient__c"
+                                          onsubmit="{!c.handleOnSubmit}"
+                                          onsuccess="{!c.handleOnSuccess}"
+                                          aura:id="patientRecord">
+                    <div class = "slds-box">
+                        <div class ="slds-top-space">
+                            <lightning:inputField fieldName="Name" />
+                        </div>
+                        <div class="slds-grid">
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class ="slds-top-space">
+                                    <lightning:inputField  fieldName="FirstName__c" />
+                                </div>
+                                <div class ="slds-top-space">
+                                    <lightning:inputField  fieldName="DOB__c" />
+                                </div>
+                                <div class ="slds-top-space">
+                                    <lightning:inputField  fieldName="Measures__c" />
+                                </div>
+                                <div class ="slds-top-space">
+                                    <lightning:inputField fieldName="Account__c"/>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class ="slds-top-space">
+                                    <div class ="slds-top-space">
+                                        <lightning:inputField  fieldName="LastName__c" />
+                                    </div>
+                                    <div class ="slds-top-space">
+                                        <lightning:inputField  fieldName="PhoneNumber__c" />
+                                    </div>
+                                    <div class ="slds-top-space">
+                                        <lightning:inputField  fieldName="Gender__c" />
+                                    </div>
+                                    <div class ="slds-top-space">
+                                        <lightning:inputField  fieldName="Age__c" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <lightning:accordion aura:id="resultsAccordion"
+                                         allowMultipleSectionsOpen="true">
+                        <lightning:accordionSection name="Section1" label="Diabetes">
+                            <c:Health_Diabetes  patRecId="{!v.patientRecord}"  comingFromVIEW="{!v.hideSAVEButton}"/>
+                        </lightning:accordionSection>
+                        <lightning:accordionSection name="Section2" label="Cervical Cancer">
+                            <div aura:id="section2DataTableDiv">
+                            </div>
+                        </lightning:accordionSection>
+                        <lightning:accordionSection name="Section3" label="OBS GYN">
+                            <div aura:id="section3DataTableDiv">
+                            </div>
+                        </lightning:accordionSection>
+                        <lightning:accordionSection name="Section4" label="Attachment">
+                            <div class="slds-grid slds-wrap slds-border_bottom slds-p-vertical_xx-small">
+                                <aura:iteration items="{!v.rows}" var="item">
+                                    <c:Health_PatientAttachment row="{!item}" IsSpinner="{!v.IsSpinner}"/>
+                                </aura:iteration>
+                            </div>
+                            <aura:set attribute="actions">
+                                <lightning:fileUpload class="attachment-upload" 
+                                                      name="fileUploader"
+                                                      label=""
+                                                      multiple="true"
+                                                      recordId="{!v.patientRecord}"
+                                                      onuploadfinished="{!c.handleUploadFinished}"/>
+                            </aura:set>
+                        </lightning:accordionSection>
+                    </lightning:accordion>
+                    <div class="slds-box_bare slds-box_x-small slds-text-align_center slds-m-around_x-small">
+                        <lightning:button type="submit" label="Update" variant="brand"/>               
+                    </div>
+                </lightning:recordEditForm>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </lightning:card>
+</aura:component>

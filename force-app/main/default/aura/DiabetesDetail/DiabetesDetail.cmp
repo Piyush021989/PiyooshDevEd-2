@@ -1,0 +1,5 @@
+<aura:component>
+    <lightning:input aura:id="field" label="First NameDiabetes" name="firstname" placeholder="First name" required="true" />
+    <lightning:input aura:id="field" label="Last NameDiabetes" name="lastname" placeholder="Last name" required="true" />
+    <lightning:button aura:id="submit" type="submit" label="Submit" onclick="{! c.onClick }" />
+</aura:component>

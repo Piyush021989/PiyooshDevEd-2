@@ -1,0 +1,80 @@
+:host {
+display: flex;
+flex-direction: column;
+}
+
+lightning-button {
+padding-top: 1em;
+}
+
+.combo-style {
+font-size: x-small;
+}
+
+.error-style {
+color: red;
+font-size: small;
+}
+a:visited {
+color: blue;
+background-color: transparent;
+text-decoration: none;
+	
+} 
+a:link {
+font-size: 13px; 
+}
+
+
+lightning-input {
+--slds-c-input-color-border: black;
+}
+
+.THIS .embeddedServiceSidebarForm.formContent {
+width: 100%;
+height: 425px;
+position: relative;
+overflow-y: auto;
+background-color: var(--lwc-esColorBackgroundInverse, rgb(255, 255, 255));
+border-radius: 0 0 8px 8px;
+}
+
+.THIS .embeddedServiceSidebarForm.buttonWrapper {
+text-align: center;
+padding: 30px 24px 24px;
+margin: 0;
+width: 100%;
+position: absolute;
+box-sizing: border-box;
+bottom: 0;    
+background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) calc(100% - 77px), rgba(255, 255, 255, 1) 100%);
+}
+
+.embeddedServiceSidebarButton {
+position: relative;
+border: none;
+background: var(--lwc-colorBrand, #2574A9);
+text-shadow: none;
+box-shadow: none;
+border-radius: 4px;
+transition: background .4s ease;
+color: var(--lwc-colorTextInverse, #FFFFFF);
+font-size: var(--lwc-esFontSizeMedium, 1em);
+font-weight: var(--lwc-fontWeightRegular, 400);
+font-family: var(--lwc-fontFamily, Lato), sans-serif;
+width: 100%;
+margin: 0;
+height: 44px;    
+}
+
+.slds-scrollable{
+height:30rem;
+}
+
+.slds-notify_alert, .slds-notify--alert {
+font-size: 15px;
+}
+
+.mainLoginInput::placeholder {
+	font-family: monospace;  
+	}

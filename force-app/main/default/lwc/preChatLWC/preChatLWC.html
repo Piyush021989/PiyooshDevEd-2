@@ -1,0 +1,63 @@
+<template>
+
+	<template if:true={showPreChatForm}>
+		<div class="formContent embeddedServiceSidebarForm">
+			<div class="slds-p-top_xx-small">
+				<lightning-layout multiple-rows="true" horizontal-align="center">
+					<lightning-layout-item class="slds-m-around_x-small" size="5">
+						<lightning-input type="text" label="FirstName" name="fstname" value={Fname}
+							onchange={handleChange} pattern="[a-zA-Z][a-zA-Z\s]*"
+							message-when-value-missing="Please enter First Name"
+							message-when-pattern-mismatch="Only Alphabets are allowed" required></lightning-input>
+					</lightning-layout-item>
+					<lightning-layout-item class="slds-m-around_x-small" size="5">
+						<lightning-input type="text" label="LastName" name="lstname" value={Lname}
+							onchange={handleChange} pattern="[a-zA-Z][a-zA-Z\s]*"
+							message-when-value-missing="Please enter Last Name"
+							message-when-pattern-mismatch="Only Alphabets are allowed" required></lightning-input>
+					</lightning-layout-item>
+					<lightning-layout-item class="slds-m-around_x-small" size="10">
+						<lightning-input type="phone" label="Phone" name="Phone"
+							placeholder="Enter Phone# without dashes" value={Phonenumber} onchange={handleChange}
+							maxlength="10" pattern="[0-9]{10}$"
+							message-when-value-missing="Please enter a valid Phone Number"
+							message-when-pattern-mismatch="Please enter a valid Phone Number" required>
+						</lightning-input>
+					</lightning-layout-item>
+					<lightning-layout-item class="slds-m-around_x-small" size="10">
+						<lightning-input type="email" label="Email" name="Email" value={EmailId} onchange={handleChange}
+							pattern="[A-Za-z0-9._-]+@[a-z0-9-]+\.[a-z]{2,}$"
+							message-when-value-missing="Please enter an Email Address"
+							message-when-pattern-mismatch="Please enter an Email Address" required></lightning-input>
+					</lightning-layout-item>
+					<!-- Reason For Contact -->
+					<lightning-layout-item class="slds-m-around_x-small" size="10">
+						<lightning-combobox class="combo-style" dropdown-alignment="auto" name="ReasonForContact"
+							label="Reason For Contact" value={Contactreason} options={options}
+							message-when-value-missing="Please select an option" onchange={handleChange}
+							style="font-size:15px;" required>
+						</lightning-combobox>
+					</lightning-layout-item>
+
+					<lightning-layout-item class="slds-m-around_x-small" size="10">
+						<div class="error-style">{errorMessage}</div>
+						<div class="recaptchaCheckbox" data-id="redDiv" style="transform: scale(0.77); 
+               -webkit-transform: scale(0.77); transform-origin: 0 0;
+               -webkit-transform-origin: 0 0;"></div>
+						<!--  <div class="error-style" data-id="redDiv">{errorMessage}</div> -->
+						<!--lightning-button onclick={doSubmit} label="Submit"></lightning-button-->
+						<!--iframe src={navigateTo} name="captchaFrame" onload={captchaLoaded} width="200" style="border-style: none;"></iframe-->
+					</lightning-layout-item>
+				</lightning-layout>
+			</div>
+		</div>
+	<!--	<div class="Down"></div> -->
+
+		<div class="buttonWrapper embeddedServiceSidebarForm">
+			<button type="button" onclick={handleStartChat}
+                class="slds-button slds-button--neutral startButton uiButton--default uiButton embeddedServiceSidebarButton">
+                <span class="label Body">{startChatLabel}</span>
+            </button>
+		</div>
+	</template>
+</template>

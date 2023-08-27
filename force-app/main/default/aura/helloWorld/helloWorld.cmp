@@ -1,0 +1,21 @@
+<aura:component >
+    <aura:attribute  name="message" type="string"/>
+    <aura:attribute name="expense" type="Expense__c"/>
+    
+    <p>Hello ! {!v.message}</p>
+    <p> {!'Hello !' + v.message} </p>
+    
+    <p>Amount:
+        <lightning:formattedNumber value="{!v.expense.Amount__c}" style="currency"/>
+    </p>
+    <p>
+        Client: {!v.expense.Client__c}
+    </p>
+    <p>
+        <lightning:input type="toggle"                            
+                         label="Reimbursed?"                           
+                         name="reimbursed"                         
+                         checked="{!v.expense.Reimbursed__c}" />
+     </p> 
+    <!-- Other markup here -->
+</aura:component>
